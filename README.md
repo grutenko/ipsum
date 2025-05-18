@@ -1,46 +1,80 @@
-# ipsum — planned CLI utility for CIDR operations
+# ipsum — minimal CLI toolkit for CIDR operations
 
-**ipsum** is an experimental command-line tool for working with sets of IP networks (CIDR blocks).
-The goal is to provide a clean, scriptable interface for common subnet-related operations in the Unix tradition.
+**ipsum** is a lightweight, Unix-style command-line utility for manipulating IP networks (CIDR blocks).
+It provides a set of fast, composable commands for network engineers, DevOps, and curious hackers.
 
-⚠️ **This is an early prototype. Most features are planned, not implemented yet.**
+You can think of it as `cut`, `sort`, `uniq` — but for subnets.
 
----
-
-## ✨ Planned Features
-
-- 📦 `merge` — combine overlapping or adjacent CIDRs into minimal covering set
-- ✂️ `split` — divide a CIDR block into smaller subnets
-- 🚫 `subtract` — remove one set of CIDRs from another
-- 🔍 `contains` — check if IPs belong to any given network
-- 📊 `stats` — report total hosts, coverage, compression ratio, etc.
-- 🧪 `validate` — check input format, redundancy, overlaps
-- ⚙️ Flags like `--level`, `--count`, `--prefix`, `--postfix`, `--json`
+🚧 Project is under early development. Not all commands are implemented yet.
 
 ---
 
-## Example (planned) usage
+## ⚙️ Commands
+
+| Command   | Description                                                   |
+|-----------|---------------------------------------------------------------|
+| `agg`     | Combine adjacent or overlapping CIDRs into minimal set        |
+| `deagg`   | Split a CIDR block into smaller subnets                       |
+| `sub`     | Subtract one list of prefixes from another                    |
+| `match`   | Check if IP(s) fall into any CIDR in the list                 |
+| `diff`    | Show the difference between two CIDR lists                    |
+| `stat`    | Show prefix counts, address coverage, compression ratio       |
+| `uniq`    | Remove duplicate or redundant prefixes                        |
+| `check`   | Validate input format and structural consistency              |
+| `opt`     | Shortcut for `uniq + agg` (deduplication and compression)     |
+
+---
+
+## 📦 Example usage
 
 ```sh
-ipsum merge input.txt > optimized.txt
-ipsum subtract allow.txt deny.txt > result.txt
-ipsum contains 8.8.8.8 ranges.txt
-ipsum stats ranges.txt
+# Aggregate routes
+ipsum agg bgp-fullview.txt > compressed.txt
+
+# Split a /16 into /24s
+ipsum deagg 10.0.0.0/16 /24
+
+# Subtract blacklisted IPs
+ipsum sub allowlist.txt blacklist.txt
+
+# Match IPs against a set of prefixes
+ipsum match 8.8.8.8 google.txt
+
+# Compare prefix sets from two ASNs
+ipsum diff as15169.txt as13335.txt
+
+# Show statistics
+ipsum stat cloudflare.txt
+
+# Clean and compress prefix list
+ipsum opt ripe-dump.txt
 ```
 
-## Goals
+## 🛠 Features
 
-- 🚀 Fast and minimal (written in C)
-- 🧰 Composable with standard Unix tools
-- 🧼 Deterministic, strict, script-friendly
-- ❌ No dependencies, no surprises
+- ⚡️ Written in C for speed and portability
+- 🧱 Prefix tree structure for efficient operations
+- 🔧 Designed for automation, scripting, and pipelines
+- 🧰 Zero dependencies, pure libc
+- 📚 Inspired by real-world BGP, routing, firewall, and filtering use cases
+- 📤 Input
 
-## Status
+## Accepts files or stdin
+- Supports IPv4 (IPv6 planned)
+- One CIDR block per line:
+192.168.0.0/24
+10.0.0.0/8
 
-- ✅ Concept and design in progress
-- 🛠 Core components being prototyped in C
-- 🧪 Features will be added incrementally
+## 📦 Building
 
-## License
+```make
+sudo make install
+```
 
+- 📜 License
 MIT
+
+- 🤝 Contributing
+See CONTRIBUTING.md
+
+This project is designed for people who think in subnets and prefer tools that don't talk back.
