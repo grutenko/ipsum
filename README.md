@@ -5,7 +5,9 @@ It provides a set of fast, composable commands for network engineers, DevOps, an
 
 You can think of it as `cut`, `sort`, `uniq` — but for subnets.
 
-🚧 Project is under early development. Not all commands are implemented yet.
+🚧 This project is currently a **concept and design prototype**.
+Commands, interfaces, and internal structures are being explored and iterated.
+Implementation is partial or not yet started.
 
 ---
 
