@@ -31,25 +31,25 @@ Implementation is partial or not yet started.
 
 ```sh
 # Aggregate routes
-ipsum agg bgp-fullview.txt > compressed.txt
+ipsum agg @bgp-fullview.txt > compressed.txt
 
 # Split a /16 into /24s
-ipsum deagg 10.0.0.0/16 /24
+ipsum deagg --output=file.txt --by=24 10.0.0.0/16
 
 # Subtract blacklisted IPs
-ipsum sub allowlist.txt blacklist.txt
+ipsum sub @allowlist.txt @blacklist.txt
 
 # Match IPs against a set of prefixes
-ipsum match 8.8.8.8 google.txt
+ipsum match --by=8.8.8.8 @google.txt
 
 # Compare prefix sets from two ASNs
-ipsum diff as15169.txt as13335.txt
+ipsum diff @as15169.txt @as13335.txt
 
 # Show statistics
-ipsum stat cloudflare.txt
+ipsum stat @cloudflare.txt
 
 # Clean and compress prefix list
-ipsum opt ripe-dump.txt
+ipsum opt @ripe-dump.txt
 ```
 
 ## 🛠 Features
